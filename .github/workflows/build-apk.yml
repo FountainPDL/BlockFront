@@ -4,21 +4,41 @@ on:
   workflow_dispatch:
 
 jobs:
-  apk:
+
+  build:
+
     runs-on: ubuntu-latest
 
     steps:
+
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+
+      - run: npm run build
 
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
 
+      - uses: android-actions/setup-android@v3
+
+      - name: Copy Web Assets
+        run: |
+          mkdir -p android/app/src/main/assets
+          cp -r dist/* android/app/src/main/assets/
+
       - name: Build APK
-        run: ./gradlew assembleDebug
+        run: |
+          cd android
+          gradle assembleDebug
 
       - uses: actions/upload-artifact@v4
         with:
-          name: apk
-          path: app/build/outputs/apk/debug/*.apk
+          name: blockfront-apk
+          path: android/app/build/outputs/apk/debug/*.apk

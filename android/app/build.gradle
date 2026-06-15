@@ -1,0 +1,34 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+
+    namespace 'com.blockfront.game'
+
+    compileSdk 36
+
+    defaultConfig {
+
+        applicationId "com.blockfront.game"
+
+        minSdk 24
+
+        targetSdk 36
+
+        versionCode 1
+
+        versionName "1.0"
+    }
+
+    buildTypes {
+
+        release {
+
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+}
